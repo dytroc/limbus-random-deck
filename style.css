@@ -1,0 +1,25 @@
+#select-num {
+  padding: 1rem 2rem;
+}
+
+#select-num input {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul li {
+  list-style: none;
+  display: inline;
+}
+
+code {
+  word-break: break-all;
+  width: 100%;
+  margin-bottom: 1rem;
+}

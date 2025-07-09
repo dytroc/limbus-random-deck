@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="pako.min.js" defer></script>
+    <title>림버스 랜덤 덱 생성기</title>
+  </head>
+  <body>
+    <main class="container">
+      <article>
+        <h1>림버스 랜덤 덱 생성기</h1>
+        <p>모든 인격 및 에고를 보유했다는 전제 하에 덱 편성 코드를 생성합니다.</p>
+        <p><b>마지막 업데이트 날:</b> 2025년 7월 9일</p>
+        <hr />
+
+        <form>
+          <fieldset>
+            <legend><h4>덱 생성 옵션</h4></legend>
+            <label>
+              <input type="checkbox" checked id="randomordercheck" onchange="changeRandomOrder(this);" />
+              편성 순서 랜덤으로 생성하기
+            </label>
+            <div id="select-num">
+              <label>
+                <b>편성 인원수:</b> <span id="ordercnt">7</span>명
+                <input type="range" min=1 max=12 value=7 id="randomorder" oninput="changeOrder(this);" />
+              </label>
+              <ul>
+                <li>1명</li>
+                <li>12명</li>
+              </ul>
+            </div>
+            <label>
+              <input type="checkbox" id="defaultego" />
+              수감자 기본 에고만 사용하기
+            </label>
+          </fieldset>
+        </form>
+        <button
+            style="width: 100%;"
+            onclick="createDeck();"
+          >랜덤 덱 생성</button>
+      </article>
+      <article id="result" style="display: none;">
+        <h1>결과</h1>
+        <hr />
+        <code id="hash"></code>
+        <button
+            onclick="copyDeckNum();"
+          >편성 코드 복사</button>
+      </article>
+    </main>
+  </body>
+</html>
