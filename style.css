@@ -26,7 +26,7 @@ code {
 
 #deck-cards > button {
   height: 15rem;
-  --pico-secondary-hover: white;
+  --pico-secondary-hover: rgb(0, 0, 0);
 
   --pico-form-element-spacing-vertical: 0.5rem;
   --pico-form-element-spacing-horizontal: 0.25rem;
@@ -54,13 +54,39 @@ code {
 }
 
 .he {
-  color: #FFFF7B;
+  color: #fdcb41;
 }
 
 .waw {
-  color: #D084F6;
+  color: #a2e;
 }
 
 .aleph {
-  color: #FF7B7B;
+  color: #f00;
+}
+
+@media (prefers-color-scheme: dark) {
+  #deck-cards > button {
+    --pico-secondary-hover: white;
+  }
+
+  .zayin {
+    color: #0f0;
+  }
+
+  .teth {
+    color: #19d;
+  }
+
+  .he {
+    color: #FFFF7B;
+  }
+
+  .waw {
+    color: #D084F6;
+  }
+
+  .aleph {
+    color: #FF7B7B;
+  }
 }
