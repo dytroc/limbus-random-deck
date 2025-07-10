@@ -23,3 +23,44 @@ code {
   width: 100%;
   margin-bottom: 1rem;
 }
+
+#deck-cards > button {
+  height: 15rem;
+  --pico-secondary-hover: white;
+
+  --pico-form-element-spacing-vertical: 0.5rem;
+  --pico-form-element-spacing-horizontal: 0.25rem;
+  width: CALC(100% / 3);  
+}
+
+.identity {
+  word-break: keep-all;
+  
+  height: 3rem;
+  display: block;
+}
+
+.ego-list {
+  word-break: keep-all;
+  font-size: .75em;
+}
+
+.zayin {
+  color: #0f0;
+}
+
+.teth {
+  color: #19d;
+}
+
+.he {
+  color: #FFFF7B;
+}
+
+.waw {
+  color: #D084F6;
+}
+
+.aleph {
+  color: #FF7B7B;
+}

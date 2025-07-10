@@ -6,45 +6,15 @@ const changeOrder = (event) => {
   document.getElementById('ordercnt').innerText = event.value;
 }
 
-const idCount = [
-  13, // 이상
-  12, // 파우스트
-  11, // 돈키호테
-  11, // 료슈
-  12, // 뫼르소
-  12, // 홍루
-  12, // 히스클리프
-  12, // 이스마엘
-  12, // 로쟈
-  13, // 싱클레어
-  12, // 오티스
-  12, // 그레고르
-];
-
-const ego = [
-  [[1,6]/* Z */,[2,3]/* T */,[4,7]/* H */,[5]/* W */,[]/* A */], // 이상,
-  [[1]/* Z */,[3,5,7]/* T */,[2,4,8]/* H */,[6]/* W */,[]/* A */], // 파우스트,
-  [[1]/* Z */,[4,5,6]/* T */,[2,3,8]/* H */,[7]/* W */,[]/* A */], // 돈키호테,
-  [[1,5]/* Z */,[3,6]/* T */,[2,4,8]/* H */,[7]/* W */,[]/* A */], // 료슈,
-  [[1]/* Z */,[2,5,6]/* T */,[3,4]/* H */,[7]/* W */,[]/* A */], // 뫼르소,
-  [[1]/* Z */,[2,4,6,7]/* T */,[3,5]/* H */,[8]/* W */,[]/* A */], // 홍루,
-  [[1,5]/* Z */,[3,7]/* T */,[2,4,8]/* H */,[6]/* W */,[]/* A */], // 히스클리프,
-  [[1,9]/* Z */,[2,4,7]/* T */,[3,6,8]/* H */,[5]/* W */,[]/* A */], // 이스마엘,
-  [[1]/* Z */,[3,4]/* T */,[2,5,7]/* H */,[6,8]/* W */,[]/* A */], // 로쟈,
-  [[1,6]/* Z */,[2,3,7]/* T */,[4,5]/* H */,[8]/* W */,[]/* A */], // 싱클레어,
-  [[1]/* Z */,[3,4]/* T */,[2,5,7,8]/* H */,[6]/* W */,[]/* A */], // 오티스,
-  [[1,2]/* Z */,[3,6]/* T */,[4,7,8]/* H */,[5]/* W */,[]/* A */] // 그레고르
-];
-
 const getEgo = (id) => {
   const list = [];
   for (let i = 0; i < 5; ++i) {
-    const egoList = ego[id][i];
+    const egoList = sinnerEgoList[id][i];
     if (egoList.length > 0) {
-      const egoId = egoList[Math.floor(Math.random() * egoList.length)];
-      list.push(egoId);
+      const egoInfo = egoList[Math.floor(Math.random() * egoList.length)];
+      list.push(egoInfo);
     } else {
-      list.push(0);
+      list.push(undefined);
     }
   }
 
@@ -52,7 +22,139 @@ const getEgo = (id) => {
 }
 
 const sinnerOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 const createDeck = () => {
+  if (document.getElementById('randomcardbuilding').checked) createSelectableDeck();
+  else createRandomDeck();
+}
+
+const selectedBuild = [];
+let remainingSinners;
+
+let selectIndex = 0;
+
+const createSelectableDeck = () => {
+  const modal = document.getElementById("modal");
+
+  selectedBuild.length = 0;
+  selectIndex = 0;
+  remainingSinners = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+  const html = document.documentElement;
+
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  if (scrollbarWidth) {
+    html.style.setProperty('--pico-scrollbar-width', `${scrollbarWidth}px`);
+  }
+
+  showSelections();
+
+  html.classList.add('modal-is-open', 'modal-is-opening');
+
+  setTimeout(() => {
+    html.classList.remove('modal-is-opening');
+  }, 400);
+  modal.showModal();
+  document.activeElement.blur();
+}
+
+const showSelections = () => {
+  document.activeElement.blur();
+  const title = document.getElementById('dialog-description');
+  document.getElementById('reroll').removeAttribute('disabled');
+
+  // Select order
+  if (!document.getElementById('randomordercheck').checked) {
+    title.innerText = `덱 빌드 짜기 - ${sinnerNames[selectIndex]}`;  
+  } else if (document.getElementById('randomorder').value > selectIndex) {
+    title.innerText = `덱 빌드 짜기 - 편성 순서 ${selectIndex + 1}번`;  
+  } else {
+    title.innerText = `덱 빌드 짜기 - 서포트 패시브`;
+  }
+
+  makeOptions();
+}
+
+const reroll = () => {
+  document.getElementById('reroll').disabled = true;
+  makeOptions();
+}
+
+const makeOptions = () => {
+  const noOverlap = [...identities];
+  for (let i = 0; i < 3; ++i) {
+    const sinner = document.getElementById('randomordercheck').checked ? remainingSinners[Math.floor(Math.random() * remainingSinners.length)] : selectIndex;
+    const egoList = document.getElementById('defaultego').checked ? [sinnerEgoList[sinner][0][0], undefined, undefined, undefined, undefined] : getEgo(sinner);
+    const id = noOverlap[sinner][Math.floor(Math.random() * noOverlap[sinner].length)];
+    noOverlap[sinner] = noOverlap[sinner].filter(e => e.no !== id.no);
+    setOption(i, egoList, id, sinner);
+  }
+}
+
+const options = [{}, {}, {}];
+
+const setOption = (index, egos, id, sinnerId) => {
+  document.getElementById('i' + index).innerText = id.name;
+  
+  document.getElementById('z' + index).innerText = egos[0] ? egos[0].name : '----';
+  document.getElementById('t' + index).innerText = egos[1] ? egos[1].name : '----';
+  document.getElementById('h' + index).innerText = egos[2] ? egos[2].name : '----';
+  document.getElementById('w' + index).innerText = egos[3] ? egos[3].name : '----';
+  document.getElementById('a' + index).innerText = egos[4] ? egos[4].name : '----';
+  
+  options[index] = { id, egos, sinnerId };
+}
+
+const selectOption = (index) => {
+  const { egos: egoList, id, sinnerId } = options[index];
+
+  selectedBuild.push({
+    id: id.no,
+    ego: egoList.map(e => e ? e.no : 0),
+    order: document.getElementById('randomordercheck').checked && document.getElementById('randomorder').value > selectIndex  ? selectIndex + 1 : 0,
+    name: id.name,
+    sinnerId: sinnerId
+  });
+
+  remainingSinners.splice(remainingSinners.indexOf(sinnerId), 1);
+
+  if (selectIndex >= 11) {
+    let binary = '';
+
+    selectedBuild.sort((a, b) => a.sinnerId - b.sinnerId);
+    
+    for (let i = 0; i < 12; i++) {
+      const { id, ego, order } = selectedBuild[i];
+      binary += makeSinnerBinary(id, ego, order);
+    }
+    binary += '00000000';
+
+    closeModal();
+
+    document.getElementById('hash').innerText = encryptToCode(binary);
+    document.getElementById('result').style.display = 'block';
+
+    return;
+  }
+
+  selectIndex++;
+
+  showSelections();
+}
+
+const closeModal = () => {
+  const modal = document.getElementById("modal");
+
+  const html = document.documentElement;
+  html.classList.add('modal-is-closing');
+  setTimeout(() => {
+    html.classList.remove('modal-is-closing', 'modal-is-open');
+    html.style.removeProperty('--pico-scrollbar-width');
+    modal.close();
+  }, 400);
+};
+
+const createRandomDeck = () => {
   const isDefaultEgo = document.getElementById('defaultego').checked;
   const randomOrder = document.getElementById('randomordercheck').checked;
   const selection = document.getElementById('randomorder').value;
@@ -60,19 +162,24 @@ const createDeck = () => {
   if (randomOrder) sinnerOrder.sort(() => Math.random() - 0.5);
 
   let binary = '';
-  for (let i = 0; i < idCount.length; i++) {
-    const id = Math.floor(Math.random() * idCount[i]) + 1;
+  for (let i = 0; i < 12; i++) {
+    const id = Math.floor(Math.random() * identities[i].length) + 1;
     const order = sinnerOrder.indexOf(i + 1);
 
     binary += makeSinnerBinary(
       id,
-      isDefaultEgo ? [1, 0, 0, 0, 0] : getEgo(i),
+      isDefaultEgo ? [1, 0, 0, 0, 0] : getEgo(i).map(ego => ego?.no ?? 0),
       randomOrder && order < selection ? order + 1 : 0
     );
   }
 
   binary += '00000000';
 
+  document.getElementById('hash').innerText = encryptToCode(binary);
+  document.getElementById('result').style.display = 'block';
+}
+
+const encryptToCode = (binary) => {
   let hash = '';
 
   for (let i = 0; i < binary.length; i += 8) {
@@ -80,14 +187,8 @@ const createDeck = () => {
     hash += ascii;
   }
 
-  hash = btoa(hash);
-
-  const cs = pako.gzip(hash, { level: 9, mtime: 0 });
-  hash = btoa(String.fromCharCode(...cs));
-
-  document.getElementById('hash').innerText = hash;
-  document.getElementById('result').style.display = 'block';
-
+  const cs = pako.gzip(btoa(hash), { level: 9, mtime: 0 });
+  return btoa(String.fromCharCode(...cs));
 }
 
 const makeSinnerBinary = (id, ego, order = 0) => {

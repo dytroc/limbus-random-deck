@@ -6,6 +6,7 @@
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     >
     <link rel="stylesheet" href="style.css" />
+    <script src="sinners.js" defer></script>
     <script src="script.js" defer></script>
     <script src="pako.min.js" defer></script>
     <title>림버스 랜덤 덱 생성기</title>
@@ -15,7 +16,7 @@
       <article>
         <h1>림버스 랜덤 덱 생성기</h1>
         <p>모든 인격 및 에고를 보유했다는 전제 하에 덱 편성 코드를 생성합니다.</p>
-        <p><b>마지막 업데이트 날:</b> 2025년 7월 9일</p>
+        <p><b>마지막 업데이트 날:</b> 2025년 7월 10일</p>
         <hr />
 
         <form>
@@ -39,21 +40,75 @@
               <input type="checkbox" id="defaultego" />
               수감자 기본 에고만 사용하기
             </label>
+            <label>
+              <input type="checkbox" id="randomcardbuilding" />
+              <span data-tooltip="해당 옵션이 켜져 있다면, 3개의 랜덤 선택지 중에 고르는 방식으로 편성합니다." data-placement="right">선택형 빌드 사용하기</span>
+            </label>
           </fieldset>
         </form>
-        <button
+        <footer>
+          <button
             style="width: 100%;"
             onclick="createDeck();"
           >랜덤 덱 생성</button>
+        </footer>
       </article>
       <article id="result" style="display: none;">
         <h1>결과</h1>
         <hr />
         <code id="hash"></code>
         <button
-            onclick="copyDeckNum();"
-          >편성 코드 복사</button>
+          onclick="copyDeckNum();"
+        >편성 코드 복사</button>
       </article>
     </main>
+    <dialog id="modal">
+      <article>
+        <header>
+          <p>
+            <strong id="dialog-description">덱 빌드 짜기 - 편성 순서 1번</strong>
+          </p>
+        </header>
+        <div id="deck-cards" role="group">
+          <button class="outline secondary" onclick="selectOption(0);">
+            <b>1번</b>
+            <br/>
+            <small class="identity" id="i0">인격 1</small>
+            <div class="ego-list">
+              <span class="zayin" id="z0">자인</span><br/>
+              <span class="teth" id="t0">테스</span><br/>
+              <span class="he" id="h0">헤</span><br/>
+              <span class="waw" id="w0">바브</span><br/>
+              <span class="aleph" id="a0">알레프</span>
+            </div>
+          </button>
+          <button class="outline secondary" onclick="selectOption(1);">
+            <b>2번</b>
+            <br/>
+            <small class="identity" id="i1">인격 2</small>
+            <div class="ego-list">
+              <span class="zayin" id="z1">자인</span><br/>
+              <span class="teth" id="t1">테스</span><br/>
+              <span class="he" id="h1">헤</span><br/>
+              <span class="waw" id="w1">바브</span><br/>
+              <span class="aleph" id="a1">알레프</span>
+            </div>
+          </button>
+          <button class="outline secondary" onclick="selectOption(2);">
+            <b>3번</b>
+            <br/>
+            <small class="identity" id="i2">인격 3</small>
+            <div class="ego-list">
+              <span class="zayin" id="z2">자인</span><br/>
+              <span class="teth" id="t2">테스</span><br/>
+              <span class="he" id="h2">헤</span><br/>
+              <span class="waw" id="w2">바브</span><br/>
+              <span class="aleph" id="a2">알레프</span>
+            </div>
+          </button>
+        </div>
+        <button style="width: 100%;" id="reroll" onclick="reroll();">리롤 (최대 1회)</button>
+      </article>
+    </dialog>
   </body>
 </html>
