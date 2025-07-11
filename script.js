@@ -24,6 +24,8 @@ const getEgo = (id) => {
 const sinnerOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const createDeck = () => {
+  currentCount = document.getElementById('randomcnt').checked ? Math.floor(Math.random() * 12) + 1 : document.getElementById('randomorder').value;
+
   if (document.getElementById('randomcardbuilding').checked) createSelectableDeck();
   else createRandomDeck();
 }
@@ -32,6 +34,7 @@ const selectedBuild = [];
 let remainingSinners;
 
 let selectIndex = 0;
+let currentCount = 0;
 
 const createSelectableDeck = () => {
   const modal = document.getElementById("modal");
@@ -66,7 +69,7 @@ const showSelections = () => {
   // Select order
   if (!document.getElementById('randomordercheck').checked) {
     title.innerText = `덱 빌드 짜기 - ${sinnerNames[selectIndex]}`;  
-  } else if (document.getElementById('randomorder').value > selectIndex) {
+  } else if (currentCount > selectIndex) {
     title.innerText = `덱 빌드 짜기 - 편성 순서 ${selectIndex + 1}번`;  
   } else {
     title.innerText = `덱 빌드 짜기 - 서포트 패시브`;
@@ -111,7 +114,7 @@ const selectOption = (index) => {
   selectedBuild.push({
     id: id.no,
     ego: egoList.map(e => e ? e.no : 0),
-    order: document.getElementById('randomordercheck').checked && document.getElementById('randomorder').value > selectIndex  ? selectIndex + 1 : 0,
+    order: document.getElementById('randomordercheck').checked && currentCount > selectIndex ? selectIndex + 1 : 0,
     name: id.name,
     sinnerId: sinnerId
   });
@@ -157,7 +160,6 @@ const closeModal = () => {
 const createRandomDeck = () => {
   const isDefaultEgo = document.getElementById('defaultego').checked;
   const randomOrder = document.getElementById('randomordercheck').checked;
-  const selection = document.getElementById('randomorder').value;
 
   if (randomOrder) sinnerOrder.sort(() => Math.random() - 0.5);
 
@@ -169,7 +171,7 @@ const createRandomDeck = () => {
     binary += makeSinnerBinary(
       id,
       isDefaultEgo ? [1, 0, 0, 0, 0] : getEgo(i).map(ego => ego?.no ?? 0),
-      randomOrder && order < selection ? order + 1 : 0
+      randomOrder && order < currentCount ? order + 1 : 0
     );
   }
 
@@ -211,4 +213,15 @@ const copyDeckNum = () => {
     console.error('클립보드 복사 실패:', err);
     alert('덱 코드 복사에 실패했습니다. 콘솔을 확인하세요.');
   });
+}
+
+function changeOrderCnt(event) {
+  const randomOrder = document.getElementById('randomorder');
+  if (event.checked) {
+    randomOrder.disabled = true;
+    document.getElementById('ordercnt').innerText = '1~12';
+  } else {
+    randomOrder.removeAttribute('disabled');
+    document.getElementById('ordercnt').innerText = randomOrder.value;
+  }
 }

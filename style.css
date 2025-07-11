@@ -65,6 +65,10 @@ code {
   color: #f00;
 }
 
+#randomcntlabel {
+  margin-bottom: 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   #deck-cards > button {
     --pico-secondary-hover: white;

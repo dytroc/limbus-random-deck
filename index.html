@@ -27,6 +27,10 @@
               편성 순서 랜덤으로 생성하기
             </label>
             <div id="select-num">
+              <label id="randomcntlabel">
+                <input type="checkbox" id="randomcnt" onchange="changeOrderCnt(this);" />
+                랜덤 편성 인원수 쓰기
+              </label>
               <label>
                 <b>편성 인원수:</b> <span id="ordercnt">7</span>명
                 <input type="range" min=1 max=12 value=7 id="randomorder" oninput="changeOrder(this);" />
