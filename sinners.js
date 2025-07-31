@@ -168,7 +168,8 @@ const identities = [
     { no: 9, name: '약지 점묘파 스튜던트 오티스' },
     { no: 10, name: 'W사 3등급 정리 요원 팀장 오티스' },
     { no: 11, name: '라만차랜드 이발사 오티스' },
-    { no: 12, name: '흑수 - 묘 오티스' }
+    { no: 12, name: '흑수 - 묘 오티스' },
+    { no: 13, name: 'T사 3등급 강력징수직 직원 오티스' }
   ],
   [
     { no: 1, name: 'LCB 수감자 그레고르' },
@@ -281,7 +282,8 @@ const sinnerEgoList = [
       { no: 4, name: '카포테' }
     ],
     [ // WAW
-      { no: 7, name: '갈망 - 미르칼라' }
+      { no: 7, name: '갈망 - 미르칼라' },
+      { no: 8, name: '분쇄될 과거' }
     ],
     [ // ALEPH
     ]
