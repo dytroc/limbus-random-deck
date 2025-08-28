@@ -27,7 +27,8 @@ const identities = [
     { no: 10, name: '로보토미 E.G.O:: 엄숙한 애도 이상' },
     { no: 11, name: 'LCE E.G.O:: 초롱 이상' },
     { no: 12, name: '남부 리우 협회 3과 이상' },
-    { no: 13, name: 'N사 E.G.O:: 흉탄 이상' }
+    { no: 13, name: 'N사 E.G.O:: 흉탄 이상' },
+    { no: 14, name: '흑수 - 오 필두 이상' }
   ],
   [
     { no: 1, name: 'LCB 수감자 파우스트' },
@@ -82,7 +83,7 @@ const identities = [
     { no: 9, name: '데드레빗츠 보스 뫼르소' },
     { no: 10, name: '남부 디에치 협회 4과 부장 뫼르소' },
     { no: 11, name: '서부 섕크 협회 3과 뫼르소' },
-    { no: 12, name: '동부 엄지 카포IIII 뫼르소' }
+    { no: 12, name: '동부 엄지 카포 IIII 뫼르소' }
   ],
   [
     { no: 1, name: 'LCB 수감자 홍루' },
@@ -155,7 +156,8 @@ const identities = [
     { no: 10, name: '서부 츠바이 협회 3과 싱클레어' },
     { no: 11, name: '북부 제뱌찌 협회 3과 싱클레어' },
     { no: 12, name: '중지 작은 아우 싱클레어' },
-    { no: 13, name: '동부 엄지 솔다토II 싱클레어' }
+    { no: 13, name: '동부 엄지 솔다토 II 싱클레어' },
+    { no: 14, name: '흑수 - 유 싱클레어' }
   ],
   [
     { no: 1, name: 'LCB 수감자 오티스' },
