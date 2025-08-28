@@ -88,6 +88,27 @@ const makeOptions = () => {
   for (let i = 0; i < 3; ++i) {
     const sinner = document.getElementById('randomordercheck').checked ? remainingSinners[Math.floor(Math.random() * remainingSinners.length)] : selectIndex;
     const egoList = document.getElementById('defaultego').checked ? [sinnerEgoList[sinner][0][0], undefined, undefined, undefined, undefined] : getEgo(sinner);
+
+    if (document.getElementById('eventonly').checked) {
+      if (eventPrivileged.ego[sinner + 1]) {
+        const egoCandidatesList = eventPrivileged.ego[sinner + 1];
+        for (let j = 0; j < 5; ++j) {
+          const egoCandidates = egoCandidatesList[j];
+          if (egoCandidates && egoCandidates.length > 0) {
+            const egoId = egoCandidates[Math.floor(Math.random() * egoCandidates.length)];
+            egoList[j] = sinnerEgoList[sinner][j].find(ego => ego.no === egoId);
+          }
+        }
+      }
+
+      if (eventPrivileged.identity[sinner + 1]) {
+        const idCandidates = eventPrivileged.identity[sinner + 1];
+        const id = identities[sinner][idCandidates[Math.floor(Math.random() * idCandidates.length)] - 1];
+        // console.log(sinner, id, identities[sinner], idCandidates)
+        setOption(i, egoList, id, sinner);
+        continue;
+      }
+    }
     const id = noOverlap[sinner][Math.floor(Math.random() * noOverlap[sinner].length)];
     noOverlap[sinner] = noOverlap[sinner].filter(e => e.no !== id.no);
     setOption(i, egoList, id, sinner);
@@ -160,17 +181,34 @@ const closeModal = () => {
 const createRandomDeck = () => {
   const isDefaultEgo = document.getElementById('defaultego').checked;
   const randomOrder = document.getElementById('randomordercheck').checked;
+  const isEventOnly = document.getElementById('eventonly').checked;
 
   if (randomOrder) sinnerOrder.sort(() => Math.random() - 0.5);
 
   let binary = '';
   for (let i = 0; i < 12; i++) {
-    const id = Math.floor(Math.random() * identities[i].length) + 1;
+    const id = isEventOnly && eventPrivileged.identity[i + 1] ?
+      eventPrivileged.identity[i + 1][Math.floor(Math.random() * eventPrivileged.identity[i + 1].length)]
+      : Math.floor(Math.random() * identities[i].length) + 1;
     const order = sinnerOrder.indexOf(i + 1);
+
+    const currentEgoList = isDefaultEgo ? [1, 0, 0, 0, 0] : getEgo(i).map(ego => ego?.no ?? 0);
+
+    if (isEventOnly) {
+      const egoCandidatesList = eventPrivileged.ego[i + 1];
+      if (egoCandidatesList) {
+        for (let j = 0; j < 5; ++j) {
+          const egoCandidates = egoCandidatesList[j];
+          if (egoCandidates && egoCandidates.length > 0) {
+            currentEgoList[j] = egoCandidates[Math.floor(Math.random() * egoCandidates.length)];
+          }
+        }
+      }
+    }
 
     binary += makeSinnerBinary(
       id,
-      isDefaultEgo ? [1, 0, 0, 0, 0] : getEgo(i).map(ego => ego?.no ?? 0),
+      currentEgoList,
       randomOrder && order < currentCount ? order + 1 : 0
     );
   }

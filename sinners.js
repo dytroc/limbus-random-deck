@@ -13,6 +13,18 @@ const sinnerNames = [
   "그레고르"
 ]
 
+// Ego Format - sinner: [[zayinEgoIdList], [tethEgoIdList], [heEgoIdList], [wawEgoIdList], [alephEgoIdList]]
+// Id Format - sinner: [idList]
+const eventPrivileged = {
+  identity: {
+    1: [14], // 흑수 이상
+    8: [12], // 시춘마엘
+    10: [14] // 흑수 싱클
+  },
+  ego: {
+  }
+}
+
 const identities = [
   [
     { no: 1, name: 'LCB 수감자 이상' },
