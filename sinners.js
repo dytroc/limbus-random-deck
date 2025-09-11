@@ -81,7 +81,8 @@ const identities = [
     { no: 8, name: '에드가 가문 치프 버틀러 료슈' },
     { no: 9, name: '20구 유로지비 료슈' },
     { no: 10, name: '로보토미 E.G.O:: 적안・참회 료슈' },
-    { no: 11, name: '흑수 - 묘 료슈' }
+    { no: 11, name: '흑수 - 묘 료슈' },
+    { no: 12, name: 'N사 E.G.O::경멸, 경외 료슈' },
   ],
   [
     { no: 1, name: 'LCB 수감자 뫼르소' },
